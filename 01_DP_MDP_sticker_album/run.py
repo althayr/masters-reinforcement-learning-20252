@@ -1,18 +1,13 @@
 def solve(N, A, B):
     cache = [None]*(N+1)
-    
     cache[N] = 0
     lower_bound = 1 if A == 0 else A
     factor_zero_1 = (B+1)/B
     factor_zero_2 = (B + 1)
     factor_nonzero = (B - A + 1)
     for i in range(N-1, -1, -1):
-        sum_ = 0
         upper_bound = min(B, N-i) + 1
-
-        for k in range(lower_bound, upper_bound):
-            sum_ += cache[i + k]
-
+        sum_ = sum(cache[i + lower_bound: i+upper_bound])
         if A == 0:
             value = factor_zero_1 * (1 + sum_ / factor_zero_2)
         else:
