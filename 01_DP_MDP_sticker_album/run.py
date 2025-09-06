@@ -1,29 +1,24 @@
-def compute_expectation(i, N, A, B, cache):
-    if cache[i] != None:
-        return cache[i]
-
-    if i >= N:
-        return 0
-    sum_ = 0
-    upper_bound = min(B, N-i-1) + 1
-    if A == 0:
-        for k in range(1, upper_bound):
-            sum_ += cache[i + k] if cache[i + k] != None else compute_expectation(i+k, N, A, B, cache)
-        value = (B+1)/B * (1 + sum_ / (B + 1))
-    else:
-        for k in range(A, upper_bound):
-            sum_ += cache[i + k] if cache[i + k] != None else compute_expectation(i+k, N, A, B, cache)
-        value = 1 + sum_ / (B - A + 1)
-        
-    # print("Adding to cache: {} - {}".format(i, value))
-    cache[i] = value
-    return value
-
 def solve(N, A, B):
     cache = [None]*(N+1)
-    # Compute in decreasing order for more efficient cache hits
-    for i in range(N, -1, -1):
-        compute_expectation(i, N, A, B, cache)
+    
+    cache[N] = 0
+    lower_bound = 1 if A == 0 else A
+    factor_zero_1 = (B+1)/B
+    factor_zero_2 = (B + 1)
+    factor_nonzero = (B - A + 1)
+    for i in range(N-1, -1, -1):
+        sum_ = 0
+        upper_bound = min(B, N-i) + 1
+
+        for k in range(lower_bound, upper_bound):
+            sum_ += cache[i + k]
+
+        if A == 0:
+            value = factor_zero_1 * (1 + sum_ / factor_zero_2)
+        else:
+            value = 1 + sum_ / factor_nonzero
+        cache[i] = value
+
     print(cache[0])
 
 
