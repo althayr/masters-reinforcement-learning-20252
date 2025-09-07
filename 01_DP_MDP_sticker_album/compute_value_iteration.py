@@ -69,7 +69,7 @@ def value_iteration(N, A, B, gamma=0.5, epsilon=1e-5, max_iterations=10000):
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print("Usage: uv run python3 compute_value_iteration.py N A B gamma epsilon")
+        print("Usage: uv run python3 compute_value_iteration.py N A B gamma")
         sys.exit(1)
 
     N, A, B, gamma = *[int(s) for s in sys.argv[1:4]], np.float32(sys.argv[4])
